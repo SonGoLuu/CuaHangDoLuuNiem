@@ -1,0 +1,169 @@
+﻿@model List<DICHOSAIGON.ModelViews.CartItem>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int check = 0;
+    SaiGonDiChoContext _context = new SaiGonDiChoContext();
+}
+
+<!-- Begin Main Content Area -->
+<main class="main-content">
+    <div class="notify"><span id="notifyType" class=""></span></div>
+    <div class="cart-area section-space-y-axis-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <form action="javascript:void(0)">
+                        <div class="table-content table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="product_remove">Xóa</th>
+                                        <th class="product-thumbnail">Ảnh đại diện</th>
+                                        <th class="cart-product-name">Sản phẩm</th>
+                                        <th class="product-price">Đơn giá</th>
+                                        <th class="product-quantity">Số lượng</th>
+                                        <th class="product-subtotal">Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null && Model.Count() > 0)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            int con;
+                                            var product = _context.Products.Where(p => p.ProductId == item.product.ProductId).FirstOrDefault();
+                                            if (item.amount > product.UnitsInStock)
+                                            { check = 1; con = 1; }
+                                            else con = 0;
+                                            <tr>
+                                                <td class="product_remove">
+                                                    <a href="javascript:void(0)">
+                                                        <i data-mahh="@item.product.ProductId" class="removecart pe-7s-close" title="Remove"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="product-thumbnail" style="width:150px">
+                                                    <a href="javascript:void(0)">
+                                                        <img src="~/images/products/@item.product.Thumb" alt="@item.product.Title" height=150px width=150px>
+                                                    </a>
+                                                </td>
+                                                <td class="product-name"><a href="javascript:void(0)">@item.product.ProductName</a></td>
+                                                <td class="product-price"><span class="amount">@item.product.Price.Value.ToString("#,##0") VNĐ</span></td>
+                                                <td class="quantity">
+                                                    <div class="cart-plus-minus" style="margin-top:25px; margin-bottom:10px">
+                                                        <input data-mahh="@item.product.ProductId" data-dongia="@item.product.Price" class="cartItem cart-plus-minus-box" value="@item.amount" type="text">
+                                                    </div>
+                                                    
+                                                        @if(@con == 1)
+                                                        {
+                                                            <p style="color:red">Hết hàng</p> 
+                                                        }
+                                                        else
+                                                        {<p >Còn hàng</p> }
+                                                </td>
+
+                                                <td class="product-subtotal"><span class="amount">@item.TotalMoney.ToString("#,##0") VNĐ</span></td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 ml-auto">
+                                <div class="cart-page-total">
+                                    <h2>Tổng đơn hàng</h2>
+                                    <ul>
+                                        <li>Thành tiền <span>@Model.Sum(x=> x.TotalMoney).ToString("#,##0") VNĐ</span></li>
+                                    </ul>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        if(check==0)
+                                        {
+                                            <a href="/checkout.html" class="btn btn-secondary btn-primary-hover">Thanh toán</a>
+                                        }
+                                        else
+                                        {
+                                            <a style="opacity:0.3" href="/cart.html" class="btn btn-secondary btn-primary-hover">Thanh toán</a>
+                                            <a class="btn" style="color:black; background-color:white; border:none;">Vui lòng cập nhật lại giỏ hàng</a>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if(check==0)
+                                        {
+                                            <a href="/dang-nhap.html?returnUrl=/checkout.html" class="btn btn-secondary btn-primary-hover">Thanh toán</a>
+                                        }
+                                        else
+                                        {
+                                            <a style="opacity:0.3" href="/cart.html" class="btn btn-secondary btn-primary-hover">Thanh toán</a>
+                                            <a class="btn" style="color:black; background-color:white; border:none;">Vui lòng cập nhật lại giỏ hàng</a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Main Content Area End Here -->
+@section Scripts {
+<script>
+        function loadHeaderCart(){
+         $("#miniCart").load("/AjaxContent/HeaderCart");
+         $("#numberCart").load("/AjaxContent/NumberCart");
+         }
+
+         $(".removecart").click(function(){
+         var productid=$(this).attr("data-mahh");
+        $.ajax({
+           url:"api/cart/remove",
+           type:"POST",
+           dataType:"JSON",
+           data:{productID:productid},
+           success:function(result){
+               if(result.success){
+                   $(".notify").toggleClass("active");
+                            $("#notifyType").toggleClass("deletesuccess");
+                            setTimeout(function(){
+                            $(".notify").removeClass("active");
+                            $("#notifyType").removeClass("deletesuccess");
+                            },1000);
+
+                            window.setTimeout(function(){loadHeaderCart()},1000);
+                            window.setTimeout(function(){location.reload()},1000);
+               }
+           },
+           error:function(rs){
+               alert("Remove Cart Error!");
+           }
+           });
+       });
+
+         $(".cartItem").click(function(){
+        var productid=$(this).attr("data-mahh");
+        var soluong=parseInt($(this).val());
+        $.ajax({
+             url:"api/cart/update",
+             type:"POST",
+             dataType:"JSON",
+             data:{
+                  productID:productid,
+                  amount:soluong
+             },
+             success:function(result){
+                  if(result.success){
+                       loadHeaderCart();// Reload lại giỏ hàng
+                       window.location='cart.html';
+                  }
+             },
+             error:function(rs){
+                  alert("Cập nhật Cart ErrorI");
+             }
+    });
+        });
+</script>
+    }

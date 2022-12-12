@@ -1,0 +1,44 @@
+﻿@model DICHOSAIGON.ModelViews.MuaHangSuccessVM
+@{
+    ViewData["Title"] = "Success";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="main-content">
+            <div class="about-banner different-bg-position section-space-y-axis-100" data-bg-image="/assets/images/about/banner/bgsuccess2.png">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-5">
+                            <div class="parallax-img-wrap">
+                                <div class="papaya">
+                                    <div class="scene fill">
+                                        <div class="expand-width" data-depth="0.2">
+                                            <img src="~/assets/images/success.png" alt="Banner Images">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-7 align-self-center">
+                            <div class="about-banner-content">
+                                <div class="section-title">
+                                    <span class="title" style="font-size:20px; font-weight:500">Đặt hàng thành công</span>
+                                    <p class="short-desc mb-0">Mã đơn hàng: #@Model.DonHangID</p>
+                                     <p class="short-desc mb-0">Cảm ơn bạn đã mua hàng</p>
+                                     <hr />
+                                    <span class="title" style="font-size:20px; font-weight:500">THÔNG TIN ĐƠN HÀNG</span>
+                                    <p class="short-desc mb-0">Thông tin giao hàng</p>
+                                    <p class="short-desc mb-0">Người nhận hàng: @Model.FullName</p>
+                                    <p class="short-desc mb-0">Số điện thoại: @Model.Phone</p>
+                                    <p class="short-desc mb-0">Địa chỉ: @Model.Address, @Model.PhuongXa, @Model.QuanHuyen, @Model.TinhThanh</p>
+                                    <div class="button-wrap pt-8">
+                                        <a class="btn btn-custom-size lg-size btn-primary btn-dark-hover rounded-0" href="/shop.html">Tiếp tục mua</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+

@@ -1,0 +1,58 @@
+﻿@model DICHOSAIGON.Models.Account
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="app">
+    <div class="container-fluid p-0 h-100" >
+        <div class="row no-gutters h-100 full-height">
+            <div class="col-lg-12 bg-white">
+                <div class="container h-100">
+                    <div class="row no-gutters h-100 align-items-center" style="height: 70% !important;">
+                        <div class="col-md-12 col-lg-7 col-xl-6 mx-auto">
+                            <h2>Tạo mới tài khoản quản trị</h2>
+                            <form asp-controller="AdminAccounts" asp-action="Create" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label class="font-weight-semibold" for="userName">Họ tên:</label>
+                                    <input type="text" class="form-control" asp-for="FullName" placeholder="Họ tên">
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-semibold" for="email">Số điện thoại:</label>
+                                    <input type="tel" class="form-control" asp-for="Phone" placeholder="Số điện thoại">
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-semibold" for="password">Email:</label>
+                                    <input type="email" class="form-control" asp-for="Email" placeholder="Email">
+                                </div>
+                                <div class="m-b-10 m-r-15">
+                                    <select class="custom-select" asp-for="RoleId"style="min-width: 200px;" asp-items="ViewBag.QuyenTruyCap">
+                                        <option value="0" disabled selected>Chọn quyền truy cập</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="d-flex align-items-center justify-content-between p-t-15">
+                                        <div class="checkbox">
+                                            <input asp-for="Active" type="checkbox">
+                                            <label for="Active"><span>Active</span></label>
+                                        </div>
+                                        <button class="btn btn-primary">Tạo mới</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Core Vendors JS -->
+<script src="assets/js/vendors.min.js"></script>
+
+<!-- page js -->
+<!-- Core JS -->
+<script src="assets/js/app.min.js"></script>
+
+

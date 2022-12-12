@@ -1,0 +1,84 @@
+﻿@model DICHOSAIGON.Models.Order
+<div class="modal fade" id="changestatus">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">THÔNG TIN ĐƠN HÀNG</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">THÔNG TIN ĐƠN HÀNG #@Model.OrderId</h4>
+                        <div class="table-responsive">
+                            <table class="product-info-tablem-t-20">
+                                <tbody>
+                                    <tr>
+                                        <td>ID:</td>
+                                        <td class="text-dark font-weight-semibold" style="padding-left:50px">#@Model.OrderId</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ngày mua hàng:</td>
+                                        <td style="padding-left:50px">@Model.OrderDate</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Khách hàng:</td>
+                                        <td style="padding-left:50px">@Model.Customer.FullName</td>
+                                    </tr>
+                                    <tr>
+                                        <td> Số điện thoại</td>
+                                        <td style="padding-left:50px">@Model.Customer.Phone</td>
+                                    </tr>
+                                    <tr>
+                                        <td> Địa chỉ:</td>
+                                        <td style="padding-left:50px">@Model.Customer.Address</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TỔNG TIỀN:</td>
+                                        <td style="padding-left:50px">@Model.TotalMoney.ToString("#,##0") VNĐ</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <form asp-area="Admin" asp-controller="AdminOrders" asp-action="ChangeStatus" asp-route-id="@Model.OrderId" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="OrderId" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Chọn trạng thái đơn hàng</label>
+                                        <select class="form-control" asp-for="TransactStatusId" asp-items="@ViewBag.TrangThai">
+                                            <option value="0" disabled selected>Chọn trạng thái đơn hàng</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Đã thanh toán</label>
+                                <input asp-for="Paid" type="checkbox">
+                                <span asp-validation-for="Paid" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Đơn hàng đã hủy</label>
+                                <input asp-for="Deleted" type="checkbox">
+                                <span asp-validation-for="Deleted" class="text-danger"></span>
+                            </div>
+                            <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+                        </form>
+                    </div>
+                    <div class="row">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

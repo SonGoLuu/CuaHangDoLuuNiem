@@ -1,0 +1,53 @@
+﻿@using System.Globalization
+@{
+    ViewData["Title"] = "Blog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<TinDang> tinDangs = ViewBag.Tintuc;
+}
+
+<main class="main-content">
+    <div class="blog-area blog-column-3 section-space-y-axis-100">
+        <div class="container">
+            <div class="row">
+                @if (tinDangs != null && tinDangs.Count > 0)
+                {
+                    foreach (var item in tinDangs)
+                    {
+                        <div class="col-lg-4" style="padding-bottom:60px">
+                            <div class="blog-item">
+                                <div class="blog-img img-zoom-effect">
+                                    <a href="/Blog/Read">
+                                        <img class="img-full" src="~/images/tindangs/@item.Thumb" alt="@item.Title">
+                                    </a>
+                                </div>
+                                <div class="blog-content" style="min-height:299px">
+                                    <div class="blog-meta text-dim-gray pb-3">
+                                        <ul>
+                                            <li class="date"><i class="fa fa-calendar-o me-2"></i>@item.CreatedDate.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)</li>
+                                            <li>
+                                                <span class="comments me-3">
+                                                    <a href="javascript:void(0)">2 Comments</a>
+                                                </span>
+                                                <span class="link-share">
+                                                    <a href="javascript:void(0)">Share</a>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <h5 class="title mb-4">
+                                        <a href="/Blog/Read">@item.Title</a>
+                                    </h5>
+                                    <div class="button-wrap">
+                                        <a class="btn btn-custom-size lg-size btn-dark rounded-0" href="/Blog/Read">Đọc thêm</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</main>
+
+

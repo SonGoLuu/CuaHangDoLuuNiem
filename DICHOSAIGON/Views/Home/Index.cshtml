@@ -1,0 +1,194 @@
+﻿@using System.Globalization
+@using DICHOSAIGON.Helpper
+@model DICHOSAIGON.ModelViews.HomeViewVM
+@{
+    ViewData["Title"] = "Shop đồ lưu niệm - NLAUGU";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Product> allProduct = ViewBag.AllProducts;
+    int i = 2;
+}
+<!-- Begin Slider Area -->
+<div class="slider-area">
+
+    <!-- Main Slider -->
+    <div class="swiper-container main-slider swiper-arrow with-bg_white">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide animation-style-01">
+                <div class="slide-inner bg-height" data-bg-image="assets/images/slider/bg/c.png">
+                    <div class="container">
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide animation-style-01">
+                <div class="slide-inner bg-height" data-bg-image="assets/images/slider/bg/c2.png">
+                    <div class="container">
+
+                        <div class="parallax-with-content">
+
+                            <div class="slide-content">
+                            </div>
+                            <div class="parallax-img-wrap">
+                                <div class="tomatoes">
+                                    <div class="scene fill">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination with-bg d-md-none"></div>
+
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
+</div>
+<!-- Slider Area End Here -->
+<!-- Begin Shipping Area -->
+<div class="shipping-area section-space-top-100">
+    <div class="container">
+        <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="shipping-item">
+                            <div class="shipping-img">
+                                <img src="~/assets/images/shipping/icon/plane.png" alt="Shipping Icon">
+                            </div>
+                            <div class="shipping-content">
+                                <h5 class="title">Miễn phí vận chuyển</h5>
+                                <p class="short-desc mb-0">Miễn phí vận chuyển đối với nội thành Hà Nội và TP.Hồ Chí Minh</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 pt-6 pt-md-0">
+                        <div class="shipping-item">
+                            <div class="shipping-img">
+                                <img src="~/assets/images/shipping/icon/earphones.png" alt="Shipping Icon">
+                            </div>
+                            <div class="shipping-content">
+                                <h5 class="title">Hỗ trợ trực tuyến</h5>
+                                <p class="short-desc mb-0">Chúng tôi sẵn sàng hỗ trợ trực tuyến 24/7</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 pt-6 pt-lg-0">
+                        <div class="shipping-item">
+                            <div class="shipping-img">
+                                <img src="~/assets/images/shipping/icon/shield.png" alt="Shipping Icon">
+                            </div>
+                            <div class="shipping-content">
+                                <h5 class="title">Thanh toán an toàn</h5>
+                                <p class="short-desc mb-0">Hệ thống thanh toán trực tuyến hoàn toàn an toàn</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+</div>
+<!-- Shipping Area End Here -->
+<!-- Begin Product Area -->
+<div class="product-area section-space-top-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="nav product-tab-nav pb-10" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="active" id="all-items-tab" data-bs-toggle="tab" href="#all-items" role="tab" aria-controls="all-items" aria-selected="true">
+                            <div class="product-tab-icon">
+                                <img src="~/assets/images/product/icon/1.png" alt="Product Icon">
+                            </div>
+                            Tất cả sản phẩm
+                        </a>
+                    </li>
+                    @foreach (var item in Model.Products)
+                    {
+                        string u = i.ToString() + ".png";
+                        <li class="nav-item" role="presentation">
+                            <a id="fresh-fruits-tab" data-bs-toggle="tab" href="#@item.category.Alias" role="tab" aria-controls="fresh-fruits" aria-selected="false">
+                                <div class="product-tab-icon">
+                                    <img src="~/assets/images/product/icon/@u" alt="@item.category.Title">
+                                </div>
+                                @item.category.CatName
+                            </a>
+                        </li>
+                        i++;
+                    }
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="all-items" role="tabpanel" aria-labelledby="all-items-tab">
+                        @await Html.PartialAsync("_ListProductPartialView", allProduct)
+                    </div>
+                    @foreach (var item in Model.Products)
+                    {
+                        <div class="tab-pane fade" id="@item.category.Alias" role="tabpanel" aria-labelledby="all-items-tab">
+                            @await Html.PartialAsync("_ListProductPartialView", item.lsProducts)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Product Area End Here -->
+<!-- Begin Blog Area -->
+<div class="blog-area section-space-y-axis-100">
+    <div class="container">
+        <div class="section-title text-center pb-55">
+            <span class="sub-title text-primary">Read Our</span>
+            <h2 class="title mb-0">Latest Blog</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="swiper-container blog-slider">
+                    <div class="swiper-wrapper">
+
+                        @if (Model.TinTucs != null && Model.TinTucs.Count > 0)
+                        {
+                            foreach (var item in Model.TinTucs)
+                            {
+                                <div class="swiper-slide">
+                                    <div class="blog-item">
+                                        <div class="blog-img img-zoom-effect">
+                                            <a href="/Blog/Read">
+                                                <img class="img-full" src="~/images/tindangs/@item.Thumb" alt="@item.Title">
+                                            </a>
+                                        </div>
+                                        <div class="blog-content" style="min-height:480px">
+                                            <div class="blog-meta text-dim-gray pb-3">
+                                                <ul>
+                                                    <li class="date"><i class="fa fa-calendar-o me-2"></i>@item.CreatedDate.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)</li>
+                                                    <li>
+                                                        <span class="comments me-3">
+                                                            <a href="javascript:void(0)">2 Comments</a>
+                                                        </span>
+                                                        <span class="link-share">
+                                                            <a href="javascript:void(0)">Share</a>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <h5 class="title mb-4">
+                                                <a href="/Blog/Read">@item.Title</a>
+                                            </h5>
+                                            <p class="short-desc mb-5">@Utilities.HTMLToText(@item.Contents)</p>
+                                            <div class="button-wrap">
+                                                <a class="btn btn-custom-size btn-dark btn-lg rounded-0" href="/Blog/Read">Đọc thêm</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <!-- Add Arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Blog Area End Here -->

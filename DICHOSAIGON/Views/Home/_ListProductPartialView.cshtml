@@ -1,0 +1,46 @@
+﻿@model List<Product>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="product-item-wrap row">
+        @foreach (var item in Model)
+        {
+            string url = $"/{item.Alias}-{item.ProductId}.html";
+            <div class="col-xl-3 col-lg-4 col-sm-6" style="padding-bottom:20px">
+                <div class="product-item">
+                    <div class="product-img img-zoom-effect">
+                        <a href="@url">
+                            <img class="img-full" src="~/images/products/@item.Thumb" alt="@item.Title">
+                        </a>
+                        <div class="product-add-action">
+                            <ul>
+                                <li>
+                                    <a href="cart.html">
+                                        <i class="pe-7s-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="product-content" style="min-height:165px">
+                        <a class="product-name" href="@url"><b>@item.ProductName</b></a>
+                        <div class="price-box pb-1">
+                            <span class="new-price" style="color:red"><b>@item.Price.Value.ToString("#,##0") VNĐ</b></span>
+                        </div>
+                        <div class="rating-box">
+                            <ul>
+                                <li><i class="pe-7s-star"></i></li>
+                                <li><i class="pe-7s-star"></i></li>
+                                <li><i class="pe-7s-star"></i></li>
+                                <li><i class="pe-7s-star"></i></li>
+                                <li><i class="pe-7s-star"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
+

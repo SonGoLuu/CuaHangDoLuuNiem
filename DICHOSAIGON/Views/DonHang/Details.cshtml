@@ -1,0 +1,36 @@
+﻿@model DICHOSAIGON.ModelViews.XemDonHang;
+@{
+    int? thanhtien(int? amount, int? price)
+    {
+        return amount*price;
+    }
+}
+<h3>Thông tin đơn hàng: #@Model.DonHang.OrderId</h3>
+<p>Ngày đặt hàng: @Model.DonHang.OrderDate</p>
+<p>Trạng thái đơn hàng: @Model.DonHang.TransactStatus.Status</p>
+<p>Tổng tiền: @Model.DonHang.TotalMoney.ToString("#,##0") VNĐ</p>
+<p>Ngày ship hàng: @Model.DonHang.ShipDate</p>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <tbody>
+            <tr>
+                <th>#</th>
+                <th>Sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+            </tr>
+
+            @foreach (var item in Model.ChiTietDonHang)
+            {
+                <tr>
+                    <td><a class="account-order-id" href="javascript:void(0)">#@item.OrderDetailId</a></td>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Amount</td>
+                    <td>@item.Price.Value.ToString("#,##0") VNĐ</td>
+                    <td>@thanhtien(@item.Amount, @item.Price).Value.ToString("#,##0") VNĐ</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
